@@ -31,7 +31,7 @@ const Navbar = () => {
             : "absolute left-[-100%] md:hidden"
         }
       >
-        <ul className="w-full h-[100px] text-center">
+        <ul className="w-full h-[100px] text-center bg-black text-white">
           <li className="mb-4">Home</li>
           <li className="mb-4">Favourites</li>
           <li>About</li>
