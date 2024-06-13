@@ -1,17 +1,24 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { IoIosSearch } from "react-icons/io";
 import fetchSearch from "../search";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
-const Search = () => {
-  const [search, setSearch] = useState("");
-  const [response, setResponse] = useState([]);
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-  };
+const Search = ({ onSearchData }) => {
+  const searchInputRef = useRef(null);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setResponse(fetchSearch(search));
+    const searchValue = searchInputRef.current.value;
+    fetchSearch(searchValue)
+      .then((data) => {
+        onSearchData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   };
+
   return (
     <div className="w-full mt-8">
       <div className="max-w-[800px] mx-auto text-center">
@@ -21,13 +28,13 @@ const Search = () => {
           <input
             type="text"
             placeholder="Enter a movie name"
-            value={search}
-            onChange={handleSearch}
+            ref={searchInputRef}
           />
-          <IoIosSearch className="inline" />
+          <button type="submit">
+            <IoIosSearch className="inline" />
+          </button>
         </form>
       </div>
-      <p>{search}</p>
     </div>
   );
 };
